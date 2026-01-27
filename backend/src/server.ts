@@ -32,17 +32,26 @@ const corsOptions = {
       'http://localhost:80'
     ];
     
-    if (!origin || allowedOrigins.some(pattern => 
-      typeof pattern === 'string' ? pattern === origin : pattern.test(origin)
-    )) {
-      callback(null, true);
+    // In production, only allow Microsoft domains and configured origins
+    if (config.nodeEnv === 'production') {
+      const allowedProductionOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [];
+      const allAllowed = [...allowedOrigins, ...allowedProductionOrigins];
+      
+      if (!origin || allAllowed.some(pattern => 
+        typeof pattern === 'string' ? pattern === origin : pattern.test(origin)
+      )) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
     } else {
-      callback(null, true); // Allow all for development - restrict in production
+      // Development: allow all
+      callback(null, true);
     }
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin', 'X-API-Key'],
   exposedHeaders: ['Content-Range', 'X-Content-Range']
 };
 

@@ -2,9 +2,18 @@ import { Request, Response } from 'express';
 import pool from '../config/database';
 
 export class ExportController {
-  // Export projects data
+  // Export data with authentication required (see routes/export.ts for middleware)
   static async exportData(req: Request, res: Response) {
     try {
+      // Log export for audit trail
+      const exportLog = {
+        user: req.headers['x-user-id'] || 'anonymous',
+        timestamp: new Date(),
+        entity: req.query.entity,
+        ip: req.ip
+      };
+      console.log('Export request:', exportLog);
+
       const { entity, format, start_date, end_date, empresa_id } = req.query;
       
       let query = '';
