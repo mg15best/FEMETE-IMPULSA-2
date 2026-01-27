@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FEMETE IMPULSA - Project Management System</title>
+    <title>FEMETE IMPULSA - Sistema de Gestión STARS 2025</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
     <link href="styles.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <!-- Top Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
         <div class="container-fluid">
             <a class="navbar-brand fw-bold" href="#"><i class="bi bi-rocket-takeoff"></i> FEMETE IMPULSA</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -19,293 +19,165 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#" onclick="showSection('dashboard')">
-                            <i class="bi bi-grid-fill"></i> Dashboard
-                        </a>
+                        <a class="nav-link" href="#"><i class="bi bi-person-circle"></i> Usuario</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="showSection('projects')">
-                            <i class="bi bi-folder"></i> Projects
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="showSection('objectives')">
-                            <i class="bi bi-bullseye"></i> Objectives
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="showSection('activities')">
-                            <i class="bi bi-list-task"></i> Activities
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="showSection('beneficiaries')">
-                            <i class="bi bi-people"></i> Beneficiaries
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="showSection('results')">
-                            <i class="bi bi-graph-up"></i> Results
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" onclick="showSection('kpis')">
-                            <i class="bi bi-speedometer2"></i> KPIs
-                        </a>
+                        <a class="nav-link" href="#"><i class="bi bi-bell"></i> <span class="badge bg-danger">3</span></a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container-fluid mt-4">
-        <!-- Dashboard Section -->
-        <div id="dashboard-section" class="content-section">
-            <div class="row mb-4">
-                <div class="col-12">
-                    <h2><i class="bi bi-grid-fill"></i> Dashboard - STARS 2025 Program</h2>
-                    <p class="text-muted">Real-time project monitoring and KPI tracking</p>
-                </div>
-            </div>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar Navigation -->
+            <nav class="col-md-2 d-md-block bg-light sidebar">
+                <div class="position-sticky pt-3">
+                    <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">
+                        <span>PRINCIPAL</span>
+                    </h6>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" onclick="showSection('inicio')">
+                                <i class="bi bi-house-door"></i> Inicio / Panel
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('registro-rapido')">
+                                <i class="bi bi-lightning"></i> Registro Rápido
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('agenda')">
+                                <i class="bi bi-calendar3"></i> Agenda / Calendario
+                            </a>
+                        </li>
+                    </ul>
 
-            <!-- KPI Cards -->
-            <div class="row g-3 mb-4" id="kpi-cards">
-                <div class="col-md-3">
-                    <div class="card border-primary">
-                        <div class="card-body">
-                            <h6 class="card-subtitle mb-2 text-muted">Active Projects</h6>
-                            <h2 class="card-title text-primary" id="total-projects">0</h2>
-                            <small class="text-success"><i class="bi bi-arrow-up"></i> STARS 2025</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card border-success">
-                        <div class="card-body">
-                            <h6 class="card-subtitle mb-2 text-muted">Objectives</h6>
-                            <h2 class="card-title text-success" id="total-objectives">0</h2>
-                            <small class="text-muted">Tracked objectives</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card border-warning">
-                        <div class="card-body">
-                            <h6 class="card-subtitle mb-2 text-muted">Activities</h6>
-                            <h2 class="card-title text-warning" id="total-activities">0</h2>
-                            <small class="text-muted">In progress</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card border-info">
-                        <div class="card-body">
-                            <h6 class="card-subtitle mb-2 text-muted">Beneficiaries</h6>
-                            <h2 class="card-title text-info" id="total-beneficiaries">0</h2>
-                            <small class="text-muted">Program beneficiaries</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                    <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">
+                        <span>CRM</span>
+                    </h6>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('empresas')">
+                                <i class="bi bi-building"></i> Empresas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('personas')">
+                                <i class="bi bi-people"></i> Personas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('entidades')">
+                                <i class="bi bi-diagram-3"></i> Entidades Colaboradoras
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('interacciones')">
+                                <i class="bi bi-chat-dots"></i> Interacciones
+                            </a>
+                        </li>
+                    </ul>
 
-            <!-- Charts Placeholder -->
-            <div class="row mb-4">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header bg-primary text-white">
-                            <h5 class="mb-0"><i class="bi bi-bar-chart-line"></i> KPI Progress Overview</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="kpi-chart-container" class="text-center p-5">
-                                <i class="bi bi-graph-up" style="font-size: 3rem; color: #ccc;"></i>
-                                <p class="text-muted">KPI visualizations will appear here</p>
-                                <p class="text-muted small">
-                                    <i class="bi bi-info-circle"></i> 
-                                    Power BI dashboards can be embedded in this section
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                    <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">
+                        <span>ACTIVIDADES</span>
+                    </h6>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('asesoramientos')">
+                                <i class="bi bi-briefcase"></i> Asesoramientos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('planes-accion')">
+                                <i class="bi bi-list-check"></i> Planes de Acción
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('formaciones')">
+                                <i class="bi bi-book"></i> Formaciones
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('eventos')">
+                                <i class="bi bi-calendar-event"></i> Eventos
+                            </a>
+                        </li>
+                    </ul>
 
-            <!-- Export Section -->
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header bg-secondary text-white">
-                            <h5 class="mb-0"><i class="bi bi-download"></i> Data Export</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row g-3">
-                                <div class="col-md-4">
-                                    <label class="form-label">Export Entity</label>
-                                    <select class="form-select" id="export-entity">
-                                        <option value="projects">Projects</option>
-                                        <option value="objectives">Objectives</option>
-                                        <option value="activities">Activities</option>
-                                        <option value="beneficiaries">Beneficiaries</option>
-                                        <option value="results">Results</option>
-                                        <option value="kpis">KPIs</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label">Export Format</label>
-                                    <select class="form-select" id="export-format">
-                                        <option value="json">JSON</option>
-                                        <option value="csv">CSV</option>
-                                        <option value="excel">Excel</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <label class="form-label">&nbsp;</label>
-                                    <button class="btn btn-success w-100" onclick="exportData()">
-                                        <i class="bi bi-download"></i> Export Data
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">
+                        <span>DIFUSIÓN Y MATERIALES</span>
+                    </h6>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('difusion')">
+                                <i class="bi bi-megaphone"></i> Difusión e Impactos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('materiales')">
+                                <i class="bi bi-file-earmark-text"></i> Materiales de Apoyo
+                            </a>
+                        </li>
+                    </ul>
 
-        <!-- Projects Section -->
-        <div id="projects-section" class="content-section" style="display: none;">
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <h2><i class="bi bi-folder"></i> Projects</h2>
-                </div>
-                <div class="col-md-6 text-end">
-                    <button class="btn btn-primary" onclick="showAddProjectModal()">
-                        <i class="bi bi-plus-circle"></i> Add Project
-                    </button>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover" id="projects-table">
-                            <thead>
-                                <tr>
-                                    <th>Code</th>
-                                    <th>Name</th>
-                                    <th>Status</th>
-                                    <th>Start Date</th>
-                                    <th>Budget</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="projects-tbody">
-                                <!-- Data will be loaded here -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">
+                        <span>GESTIÓN Y CONTROL</span>
+                    </h6>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('evidencias')">
+                                <i class="bi bi-folder"></i> Evidencias
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('entregables')">
+                                <i class="bi bi-box-seam"></i> Entregables
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('justificacion')">
+                                <i class="bi bi-file-earmark-check"></i> Justificación
+                            </a>
+                        </li>
+                    </ul>
 
-        <!-- Other sections (similar structure) -->
-        <div id="objectives-section" class="content-section" style="display: none;">
-            <h2><i class="bi bi-bullseye"></i> Objectives</h2>
-            <div class="card">
-                <div class="card-body">
-                    <p class="text-muted">Objectives management interface</p>
-                    <div id="objectives-list"></div>
+                    <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">
+                        <span>INFORMES Y CONFIG</span>
+                    </h6>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('informes')">
+                                <i class="bi bi-graph-up"></i> Informes y KPIs
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('configuracion')">
+                                <i class="bi bi-gear"></i> Configuración
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="showSection('administracion')">
+                                <i class="bi bi-shield-lock"></i> Administración
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-            </div>
-        </div>
+            </nav>
 
-        <div id="activities-section" class="content-section" style="display: none;">
-            <h2><i class="bi bi-list-task"></i> Activities</h2>
-            <div class="card">
-                <div class="card-body">
-                    <p class="text-muted">Activities tracking interface</p>
-                    <div id="activities-list"></div>
+            <!-- Main Content Area -->
+            <main class="col-md-10 ms-sm-auto px-md-4">
+                <!-- Section content will be loaded here dynamically -->
+                <div id="content-area" class="py-4">
+                    <!-- Content sections will be inserted here -->
                 </div>
-            </div>
-        </div>
-
-        <div id="beneficiaries-section" class="content-section" style="display: none;">
-            <h2><i class="bi bi-people"></i> Beneficiaries</h2>
-            <div class="card">
-                <div class="card-body">
-                    <p class="text-muted">Beneficiaries management interface</p>
-                    <div id="beneficiaries-list"></div>
-                </div>
-            </div>
-        </div>
-
-        <div id="results-section" class="content-section" style="display: none;">
-            <h2><i class="bi bi-graph-up"></i> Results</h2>
-            <div class="card">
-                <div class="card-body">
-                    <p class="text-muted">Results tracking interface</p>
-                    <div id="results-list"></div>
-                </div>
-            </div>
-        </div>
-
-        <div id="kpis-section" class="content-section" style="display: none;">
-            <h2><i class="bi bi-speedometer2"></i> KPIs</h2>
-            <div class="card">
-                <div class="card-body">
-                    <p class="text-muted">Key Performance Indicators dashboard</p>
-                    <div id="kpis-list"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Add Project Modal -->
-    <div class="modal fade" id="addProjectModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title"><i class="bi bi-plus-circle"></i> Add New Project</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="add-project-form">
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label">Project Code *</label>
-                                <input type="text" class="form-control" id="project-code" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Project Name *</label>
-                                <input type="text" class="form-control" id="project-name" required>
-                            </div>
-                            <div class="col-md-12">
-                                <label class="form-label">Description</label>
-                                <textarea class="form-control" id="project-description" rows="3"></textarea>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Start Date *</label>
-                                <input type="date" class="form-control" id="project-start-date" required>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">End Date</label>
-                                <input type="date" class="form-control" id="project-end-date">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Budget (€)</label>
-                                <input type="number" class="form-control" id="project-budget" step="0.01">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" onclick="saveProject()">
-                        <i class="bi bi-save"></i> Save Project
-                    </button>
-                </div>
-            </div>
+            </main>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="app.js"></script>
+    <script src="app-sections.js"></script>
 </body>
 </html>
