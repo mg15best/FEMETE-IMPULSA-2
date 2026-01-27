@@ -85,11 +85,9 @@ export interface EntidadColaboradora {
 
 export interface ContactoEmpresa {
   id?: number;
-  nombre_contacto: string;
+  persona_id: number;
   empresa_id: number;
   cargo_rol?: string;
-  email?: string;
-  telefono?: string;
   canal_preferido_id?: number;
   contacto_principal?: boolean;
   consentimiento_rgpd?: boolean;
@@ -114,9 +112,10 @@ export interface InteraccionEntidad {
   id?: number;
   nombre_interaccion: string;
   empresa_id: number;
-  contacto_id?: number;
+  persona_id?: number;
+  entidad_colaboradora_id?: number;
   canal_id?: number;
-  fecha?: Date;
+  fecha: Date;
   resultado?: string;
   observaciones?: string;
   created_at?: Date;
@@ -159,10 +158,9 @@ export interface Evento {
 
 export interface AsistenciaFormacion {
   id?: number;
-  asistente_id: number;
+  persona_id: number;
   formacion_id: number;
   empresa_id?: number;
-  contacto_id?: number;
   asistio?: boolean;
   observaciones?: string;
   created_at?: Date;
@@ -171,10 +169,9 @@ export interface AsistenciaFormacion {
 
 export interface AsistenciaEvento {
   id?: number;
-  asistente_id: number;
+  persona_id: number;
   evento_id: number;
   empresa_id?: number;
-  contacto_id?: number;
   asistio?: boolean;
   observaciones?: string;
   created_at?: Date;
@@ -184,10 +181,10 @@ export interface AsistenciaEvento {
 export interface InvitacionEvento {
   id?: number;
   evento_id: number;
+  persona_id?: number;
   empresa_id?: number;
-  contacto_id?: number;
   canal_invitacion_id?: number;
-  fecha_invitacion?: Date;
+  fecha_invitacion: Date;
   aceptada?: boolean;
   created_at?: Date;
   updated_at?: Date;
@@ -227,8 +224,8 @@ export interface SesionAsesoramiento {
   id?: number;
   nombre_sesion: string;
   empresa_id: number;
-  contacto_id?: number;
-  fecha_sesion?: Date;
+  persona_id?: number;
+  fecha_sesion: Date;
   duracion?: number;
   canal_id?: number;
   estado_sesion_id?: number;
@@ -333,4 +330,117 @@ export interface LogExportacion {
   tipo_exportacion?: string;
   resultado?: string;
   created_at?: Date;
+}
+
+// ============================================
+// VISTAS 360º (360º Views)
+// ============================================
+
+export interface Vista360Persona {
+  persona_id: number;
+  nombre: string;
+  apellidos?: string;
+  email?: string;
+  telefono?: string;
+  empresa_id?: number;
+  nombre_empresa?: string;
+  cif_identificador?: string;
+  roles_empresas: any[]; // JSON array of company roles
+  formaciones_asistidas: number;
+  eventos_asistidos: number;
+  interacciones_realizadas: number;
+  sesiones_asesoramiento: number;
+  ultima_actividad?: Date;
+}
+
+export interface Vista360Empresa {
+  empresa_id: number;
+  nombre_empresa: string;
+  cif_identificador: string;
+  sector?: string;
+  municipio?: string;
+  provincia?: string;
+  telefono?: string;
+  email?: string;
+  total_personas: number;
+  contactos: any[]; // JSON array of contacts
+  sesiones_asesoramiento: number;
+  planes_accion: number;
+  planes_accion_activos: number;
+  total_interacciones: number;
+  ultima_interaccion?: Date;
+  formaciones_participadas: number;
+  eventos_participados: number;
+  entidades_colaboradoras_activas: number;
+  nivel_actividad: string;
+  ultima_actividad?: Date;
+}
+
+export interface Vista360Formacion {
+  formacion_id: number;
+  nombre_formacion: string;
+  fecha_inicio?: Date;
+  fecha_fin?: Date;
+  modalidad?: string;
+  horas_totales?: number;
+  entidad_formadora?: string;
+  responsable?: string;
+  total_invitados: number;
+  total_asistentes: number;
+  porcentaje_asistencia?: number;
+  empresas_representadas: number;
+  encuestas_realizadas: number;
+  evidencias_adjuntas: number;
+  lista_asistentes: any[]; // JSON array of attendees
+}
+
+export interface Vista360Evento {
+  evento_id: number;
+  nombre_evento: string;
+  fecha_inicio?: Date;
+  fecha_fin?: Date;
+  modalidad?: string;
+  lugar?: string;
+  tipo_evento?: string;
+  entidad_organizadora?: string;
+  total_invitaciones: number;
+  invitaciones_aceptadas: number;
+  total_asistentes: number;
+  empresas_representadas: number;
+  encuestas_realizadas: number;
+  evidencias_adjuntas: number;
+  lista_asistentes: any[]; // JSON array of attendees
+}
+
+export interface VistaTimelineActividad {
+  tipo_actividad: 'Interaccion' | 'Sesion' | 'Formacion' | 'Evento';
+  actividad_id: number;
+  nombre: string;
+  fecha_actividad?: Date;
+  empresa_id?: number;
+  nombre_empresa?: string;
+  persona_id?: number;
+  persona_nombre?: string;
+  persona_apellidos?: string;
+  canal?: string;
+  detalles?: string;
+  created_at?: Date;
+}
+
+export interface VistaEstadisticasGenerales {
+  total_personas: number;
+  total_empresas: number;
+  total_entidades_colaboradoras: number;
+  total_formaciones: number;
+  total_eventos: number;
+  total_sesiones_asesoramiento: number;
+  total_planes_accion: number;
+  planes_accion_activos: number;
+  total_interacciones: number;
+  total_materiales: number;
+  total_evidencias: number;
+  total_impactos_difusion: number;
+  total_informes: number;
+  total_asistencias_formacion: number;
+  total_asistencias_evento: number;
 }

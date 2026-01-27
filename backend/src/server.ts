@@ -12,6 +12,7 @@ import empresaRoutes from './routes/empresas';
 import formacionRoutes from './routes/formaciones';
 import eventoRoutes from './routes/eventos';
 import sesionAsesoramientoRoutes from './routes/sesiones-asesoramiento';
+import vistas360Routes from './routes/vistas360';
 
 dotenv.config();
 
@@ -73,6 +74,7 @@ app.use('/api/empresas', empresaRoutes);
 app.use('/api/formaciones', formacionRoutes);
 app.use('/api/eventos', eventoRoutes);
 app.use('/api/sesiones-asesoramiento', sesionAsesoramientoRoutes);
+app.use('/api/vistas360', vistas360Routes);
 
 // Swagger API Documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
