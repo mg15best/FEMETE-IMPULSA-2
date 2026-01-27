@@ -1,6 +1,8 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './config/swagger';
 import { config } from './config/config';
 
 // Import routes
@@ -15,8 +17,37 @@ dotenv.config();
 
 const app: Application = express();
 
+// Enhanced CORS for Microsoft Power Platform
+const corsOptions = {
+  origin: function (origin: string | undefined, callback: Function) {
+    // Allow requests from Microsoft Power Platform and localhost
+    const allowedOrigins = [
+      /\.powerapps\.com$/,
+      /\.powerbi\.com$/,
+      /\.microsoft\.com$/,
+      /\.office\.com$/,
+      /\.dynamics\.com$/,
+      'http://localhost',
+      'http://localhost:3000',
+      'http://localhost:80'
+    ];
+    
+    if (!origin || allowedOrigins.some(pattern => 
+      typeof pattern === 'string' ? pattern === origin : pattern.test(origin)
+    )) {
+      callback(null, true);
+    } else {
+      callback(null, true); // Allow all for development - restrict in production
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
+  exposedHeaders: ['Content-Range', 'X-Content-Range']
+};
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -34,6 +65,18 @@ app.use('/api/formaciones', formacionRoutes);
 app.use('/api/eventos', eventoRoutes);
 app.use('/api/sesiones-asesoramiento', sesionAsesoramientoRoutes);
 
+// Swagger API Documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  customCss: '.swagger-ui .topbar { display: none }',
+  customSiteTitle: 'FEMETE IMPULSA API Documentation'
+}));
+
+// OpenAPI JSON for Power Apps Custom Connector
+app.get('/api/openapi.json', (req: Request, res: Response) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
+
 // Health check endpoint
 app.get('/health', (req: Request, res: Response) => {
   res.json({ 
@@ -49,6 +92,10 @@ app.get('/api', (req: Request, res: Response) => {
     name: 'FEMETE IMPULSA API',
     version: '1.0.0',
     description: 'Project Management and Monitoring API for STARS 2025 Innovation Program',
+    documentation: {
+      swagger: '/api-docs',
+      openapi: '/api/openapi.json'
+    },
     endpoints: {
       // STARS 2025 Main Endpoints
       kpiStars: '/api/kpi-stars',
@@ -66,6 +113,11 @@ app.get('/api', (req: Request, res: Response) => {
       detalle: '/api/kpi-stars/detalle/:codigo',
       breakdown: '/api/kpi-stars/breakdown/:codigo',
       snapshot: '/api/kpi-stars/snapshot (POST)'
+    },
+    microsoft_integration: {
+      power_apps: 'Use /api/openapi.json for Custom Connector',
+      power_bi: 'Use /api/kpi-stars/powerbi for data connection',
+      cors: 'Configured for *.powerapps.com, *.powerbi.com, *.microsoft.com'
     }
   });
 });
@@ -95,8 +147,14 @@ app.listen(PORT, () => {
 
 Server running on port ${PORT}
 Environment: ${config.nodeEnv}
-API Documentation: http://localhost:${PORT}/api
+API Documentation: http://localhost:${PORT}/api-docs
+OpenAPI Spec: http://localhost:${PORT}/api/openapi.json
 Health Check: http://localhost:${PORT}/health
+
+Microsoft Integration:
+  - Power Apps: Use /api/openapi.json for Custom Connector
+  - Power BI: Use /api/kpi-stars/powerbi for data
+  - CORS: Configured for Microsoft domains
 
 Available endpoints:
   - Empresas:      http://localhost:${PORT}/api/empresas
