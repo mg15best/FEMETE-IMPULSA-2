@@ -12,6 +12,10 @@ import resultRoutes from './routes/results';
 import kpiRoutes from './routes/kpis';
 import kpiStarsRoutes from './routes/kpi-stars';
 import exportRoutes from './routes/export';
+import empresaRoutes from './routes/empresas';
+import formacionRoutes from './routes/formaciones';
+import eventoRoutes from './routes/eventos';
+import sesionAsesoramientoRoutes from './routes/sesiones-asesoramiento';
 
 dotenv.config();
 
@@ -37,6 +41,10 @@ app.use('/api/results', resultRoutes);
 app.use('/api/kpis', kpiRoutes);
 app.use('/api/kpi-stars', kpiStarsRoutes);
 app.use('/api/export', exportRoutes);
+app.use('/api/empresas', empresaRoutes);
+app.use('/api/formaciones', formacionRoutes);
+app.use('/api/eventos', eventoRoutes);
+app.use('/api/sesiones-asesoramiento', sesionAsesoramientoRoutes);
 
 // Health check endpoint
 app.get('/health', (req: Request, res: Response) => {
@@ -54,13 +62,19 @@ app.get('/api', (req: Request, res: Response) => {
     version: '1.0.0',
     description: 'Project Management and Monitoring API for STARS 2025 Innovation Program',
     endpoints: {
+      // Legacy endpoints
       projects: '/api/projects',
       objectives: '/api/objectives',
       activities: '/api/activities',
       beneficiaries: '/api/beneficiaries',
       results: '/api/results',
       kpis: '/api/kpis',
+      // New STARS 2025 endpoints
       kpiStars: '/api/kpi-stars',
+      empresas: '/api/empresas',
+      formaciones: '/api/formaciones',
+      eventos: '/api/eventos',
+      sesionesAsesoramiento: '/api/sesiones-asesoramiento',
       export: '/api/export',
       health: '/health'
     },
