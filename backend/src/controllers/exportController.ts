@@ -5,7 +5,7 @@ export class ExportController {
   // Export projects data
   static async exportData(req: Request, res: Response) {
     try {
-      const { entity, format, start_date, end_date, project_id } = req.query;
+      const { entity, format, start_date, end_date, empresa_id } = req.query;
       
       let query = '';
       const params: any[] = [];
@@ -13,83 +13,63 @@ export class ExportController {
 
       // Build query based on entity type
       switch (entity) {
-        case 'projects':
-          query = 'SELECT * FROM projects WHERE 1=1';
+        case 'empresas':
+          query = 'SELECT * FROM Empresa WHERE 1=1';
           if (start_date) {
-            query += ` AND start_date >= $${paramCount}`;
+            query += ` AND fecha_alta >= $${paramCount}`;
+            params.push(start_date);
+            paramCount++;
+          }
+          break;
+
+        case 'formaciones':
+          query = 'SELECT * FROM Formacion WHERE 1=1';
+          if (start_date) {
+            query += ` AND fecha_inicio >= $${paramCount}`;
             params.push(start_date);
             paramCount++;
           }
           if (end_date) {
-            query += ` AND end_date <= $${paramCount}`;
+            query += ` AND fecha_fin <= $${paramCount}`;
             params.push(end_date);
             paramCount++;
           }
           break;
 
-        case 'objectives':
-          query = 'SELECT * FROM objectives WHERE 1=1';
-          if (project_id) {
-            query += ` AND project_id = $${paramCount}`;
-            params.push(project_id);
-            paramCount++;
-          }
-          break;
-
-        case 'activities':
-          query = 'SELECT * FROM activities WHERE 1=1';
-          if (project_id) {
-            query += ` AND project_id = $${paramCount}`;
-            params.push(project_id);
-            paramCount++;
-          }
+        case 'eventos':
+          query = 'SELECT * FROM Evento WHERE 1=1';
           if (start_date) {
-            query += ` AND start_date >= $${paramCount}`;
+            query += ` AND fecha_inicio >= $${paramCount}`;
             params.push(start_date);
             paramCount++;
           }
           if (end_date) {
-            query += ` AND end_date <= $${paramCount}`;
+            query += ` AND fecha_fin <= $${paramCount}`;
             params.push(end_date);
             paramCount++;
           }
           break;
 
-        case 'beneficiaries':
-          query = 'SELECT * FROM beneficiaries WHERE 1=1';
-          if (project_id) {
-            query += ` AND project_id = $${paramCount}`;
-            params.push(project_id);
+        case 'sesiones':
+          query = 'SELECT * FROM SesionAsesoramiento WHERE 1=1';
+          if (empresa_id) {
+            query += ` AND empresa_id = $${paramCount}`;
+            params.push(empresa_id);
+            paramCount++;
+          }
+          if (start_date) {
+            query += ` AND fecha_sesion >= $${paramCount}`;
+            params.push(start_date);
             paramCount++;
           }
           break;
 
-        case 'results':
-          query = 'SELECT * FROM results WHERE 1=1';
-          if (project_id) {
-            query += ` AND project_id = $${paramCount}`;
-            params.push(project_id);
-            paramCount++;
-          }
-          if (start_date) {
-            query += ` AND achievement_date >= $${paramCount}`;
-            params.push(start_date);
-            paramCount++;
-          }
-          if (end_date) {
-            query += ` AND achievement_date <= $${paramCount}`;
-            params.push(end_date);
-            paramCount++;
-          }
+        case 'personas':
+          query = 'SELECT * FROM Personas WHERE 1=1';
           break;
 
         case 'kpis':
-          query = 'SELECT * FROM kpis WHERE 1=1';
-          if (project_id) {
-            query += ` AND project_id = $${paramCount}`;
-            params.push(project_id);
-            paramCount++;
-          }
+          query = 'SELECT * FROM VistaKPIActuales';
           break;
 
         default:
