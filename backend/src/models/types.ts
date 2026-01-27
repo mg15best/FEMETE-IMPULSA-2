@@ -128,15 +128,30 @@ export interface InteraccionEntidad {
 
 export interface Formacion {
   id?: number;
+  codigo?: string;
+  titulo?: string;
+  descripcion?: string;
+  tipo_id?: number;
   nombre_formacion: string;
   fecha_inicio?: Date;
   fecha_fin?: Date;
   modalidad?: string;
+  duracion_horas?: number;
   horas_totales?: number;
+  horario?: string;
+  lugar?: string;
+  plataforma_online?: string;
+  capacidad_maxima?: number;
   entidad_formadora?: string;
+  formador?: string;
   responsable?: string;
   objetivo?: string;
+  objetivos?: string;
+  contenido?: string;
   contenidos?: string;
+  estado_id?: number;
+  presupuesto?: number;
+  coste_real?: number;
   observaciones?: string;
   created_at?: Date;
   updated_at?: Date;
@@ -144,14 +159,29 @@ export interface Formacion {
 
 export interface Evento {
   id?: number;
+  codigo?: string;
+  titulo?: string;
   nombre_evento: string;
+  tipo_id?: number;
   tipo_evento_id?: number;
   fecha_inicio?: Date;
   fecha_fin?: Date;
   modalidad?: string;
   lugar?: string;
+  direccion?: string;
   descripcion?: string;
+  plataforma_online?: string;
+  capacidad_maxima?: number;
+  aforo_actual?: number;
+  organizador?: string;
   entidad_organizadora?: string;
+  ponentes?: string;
+  agenda?: string;
+  estado_id?: number;
+  presupuesto?: number;
+  coste_real?: number;
+  publico_objetivo?: string;
+  requisitos?: string;
   created_at?: Date;
   updated_at?: Date;
 }
@@ -222,20 +252,36 @@ export interface EncuestaEvento {
 
 export interface SesionAsesoramiento {
   id?: number;
+  codigo?: string;
   nombre_sesion: string;
   empresa_id: number;
   persona_id?: number;
+  persona_contacto_id?: number;
+  tipo_id?: number;
   fecha_sesion: Date;
   duracion?: number;
+  duracion_minutos?: number;
   canal_id?: number;
+  modalidad?: string;
+  lugar?: string;
+  asesor?: string;
+  tematica?: string;
   estado_sesion_id?: number;
+  estado_id?: number;
   responsable?: string;
   temas_tratados?: string;
+  descripcion?: string;
+  objetivos?: string;
+  resultados?: string;
   necesidades_detectadas?: string;
   acuerdos_alcanzados?: string;
+  recomendaciones?: string;
+  seguimiento_requerido?: boolean;
   proximo_paso?: string;
   fecha_proximo_paso?: Date;
+  fecha_seguimiento?: Date;
   evidencia_sesion?: string;
+  valoracion?: number;
   created_at?: Date;
   updated_at?: Date;
 }
