@@ -4,9 +4,8 @@
 
 export interface CatalogoEstado {
   id?: number;
-  nombre: string;
-  descripcion?: string;
-  color?: string;
+  nombre_estado: string;
+  codigo_estado: string;
   activo?: boolean;
   created_at?: Date;
   updated_at?: Date;
@@ -14,9 +13,7 @@ export interface CatalogoEstado {
 
 export interface CatalogoPrioridad {
   id?: number;
-  nombre: string;
-  nivel?: number;
-  color?: string;
+  nombre_prioridad: string;
   activo?: boolean;
   created_at?: Date;
   updated_at?: Date;
@@ -24,9 +21,7 @@ export interface CatalogoPrioridad {
 
 export interface CatalogoTipo {
   id?: number;
-  categoria: string;
-  nombre: string;
-  descripcion?: string;
+  nombre_tipo: string;
   activo?: boolean;
   created_at?: Date;
   updated_at?: Date;
@@ -34,8 +29,8 @@ export interface CatalogoTipo {
 
 export interface CatalogoCanal {
   id?: number;
-  nombre: string;
-  descripcion?: string;
+  nombre_canal: string;
+  codigo_canal: string;
   activo?: boolean;
   created_at?: Date;
   updated_at?: Date;
@@ -51,58 +46,35 @@ export interface Personas {
   apellidos?: string;
   email?: string;
   telefono?: string;
-  cargo?: string;
-  organizacion?: string;
-  genero?: string;
-  fecha_nacimiento?: Date;
-  provincia?: string;
-  municipio?: string;
-  codigo_postal?: string;
-  notas?: string;
-  activo?: boolean;
+  empresa_id?: number;
   created_at?: Date;
   updated_at?: Date;
 }
 
 export interface Empresa {
   id?: number;
-  razon_social: string;
-  nombre_comercial?: string;
-  cif: string;
-  sector?: string;
-  tamano?: string;
-  numero_empleados?: number;
-  facturacion_anual?: number;
+  nombre_empresa: string;
+  cif_identificador: string;
   direccion?: string;
-  provincia?: string;
-  municipio?: string;
   codigo_postal?: string;
+  municipio?: string;
+  provincia?: string;
+  comunidad_autonoma?: string;
   telefono?: string;
   email?: string;
-  web?: string;
-  descripcion?: string;
-  estado_id?: number;
-  fecha_alta?: Date;
-  activo?: boolean;
+  sector?: string;
+  observaciones?: string;
   created_at?: Date;
   updated_at?: Date;
 }
 
 export interface EntidadColaboradora {
   id?: number;
-  nombre: string;
-  tipo?: string;
-  ambito?: string;
-  direccion?: string;
-  provincia?: string;
-  municipio?: string;
-  telefono?: string;
+  nombre_entidad: string;
+  tipo_entidad?: string;
   email?: string;
-  web?: string;
-  persona_contacto?: string;
-  descripcion?: string;
-  fecha_colaboracion?: Date;
-  activo?: boolean;
+  telefono?: string;
+  observaciones?: string;
   created_at?: Date;
   updated_at?: Date;
 }
@@ -113,24 +85,26 @@ export interface EntidadColaboradora {
 
 export interface ContactoEmpresa {
   id?: number;
+  nombre_contacto: string;
   empresa_id: number;
-  persona_id: number;
-  es_contacto_principal?: boolean;
-  departamento?: string;
+  cargo_rol?: string;
+  email?: string;
+  telefono?: string;
+  canal_preferido_id?: number;
+  contacto_principal?: boolean;
+  consentimiento_rgpd?: boolean;
+  fecha_consentimiento?: Date;
   notas?: string;
-  activo?: boolean;
   created_at?: Date;
   updated_at?: Date;
 }
 
 export interface ConexionEmpresaEntidad {
   id?: number;
+  nombre_conexion: string;
   empresa_id: number;
-  entidad_id: number;
+  entidad_colaboradora_id: number;
   tipo_conexion?: string;
-  descripcion?: string;
-  fecha_inicio?: Date;
-  fecha_fin?: Date;
   activo?: boolean;
   created_at?: Date;
   updated_at?: Date;
@@ -138,17 +112,13 @@ export interface ConexionEmpresaEntidad {
 
 export interface InteraccionEntidad {
   id?: number;
-  entidad_id: number;
-  empresa_id?: number;
-  persona_id?: number;
-  tipo_interaccion?: string;
+  nombre_interaccion: string;
+  empresa_id: number;
+  contacto_id?: number;
   canal_id?: number;
-  fecha_interaccion?: Date;
-  duracion_minutos?: number;
-  descripcion?: string;
+  fecha?: Date;
   resultado?: string;
-  seguimiento_requerido?: boolean;
-  fecha_seguimiento?: Date;
+  observaciones?: string;
   created_at?: Date;
   updated_at?: Date;
 }
@@ -159,84 +129,54 @@ export interface InteraccionEntidad {
 
 export interface Formacion {
   id?: number;
-  codigo: string;
-  titulo: string;
-  descripcion?: string;
-  tipo_id?: number;
-  modalidad?: string;
-  duracion_horas?: number;
+  nombre_formacion: string;
   fecha_inicio?: Date;
   fecha_fin?: Date;
-  horario?: string;
-  lugar?: string;
-  plataforma_online?: string;
-  capacidad_maxima?: number;
-  formador?: string;
-  contenido?: string;
-  objetivos?: string;
-  estado_id?: number;
-  presupuesto?: number;
-  coste_real?: number;
+  modalidad?: string;
+  horas_totales?: number;
+  entidad_formadora?: string;
+  responsable?: string;
+  objetivo?: string;
+  contenidos?: string;
+  observaciones?: string;
   created_at?: Date;
   updated_at?: Date;
 }
 
 export interface Evento {
   id?: number;
-  codigo: string;
-  titulo: string;
-  descripcion?: string;
-  tipo_id?: number;
-  fecha_inicio: Date;
+  nombre_evento: string;
+  tipo_evento_id?: number;
+  fecha_inicio?: Date;
   fecha_fin?: Date;
-  lugar?: string;
-  direccion?: string;
   modalidad?: string;
-  plataforma_online?: string;
-  capacidad_maxima?: number;
-  aforo_actual?: number;
-  organizador?: string;
-  ponentes?: string;
-  agenda?: string;
-  estado_id?: number;
-  presupuesto?: number;
-  coste_real?: number;
-  publico_objetivo?: string;
-  requisitos?: string;
+  lugar?: string;
+  descripcion?: string;
+  entidad_organizadora?: string;
   created_at?: Date;
   updated_at?: Date;
 }
 
 export interface AsistenciaFormacion {
   id?: number;
+  asistente_id: number;
   formacion_id: number;
-  persona_id: number;
   empresa_id?: number;
-  fecha_inscripcion?: Date;
-  estado?: string;
+  contacto_id?: number;
   asistio?: boolean;
-  porcentaje_asistencia?: number;
-  calificacion?: number;
-  certificado_emitido?: boolean;
-  fecha_certificado?: Date;
-  valoracion?: number;
-  comentarios?: string;
+  observaciones?: string;
   created_at?: Date;
   updated_at?: Date;
 }
 
 export interface AsistenciaEvento {
   id?: number;
+  asistente_id: number;
   evento_id: number;
-  persona_id: number;
   empresa_id?: number;
-  fecha_inscripcion?: Date;
-  estado?: string;
+  contacto_id?: number;
   asistio?: boolean;
-  hora_entrada?: Date;
-  hora_salida?: Date;
-  valoracion?: number;
-  comentarios?: string;
+  observaciones?: string;
   created_at?: Date;
   updated_at?: Date;
 }
@@ -244,14 +184,11 @@ export interface AsistenciaEvento {
 export interface InvitacionEvento {
   id?: number;
   evento_id: number;
-  persona_id: number;
   empresa_id?: number;
+  contacto_id?: number;
+  canal_invitacion_id?: number;
   fecha_invitacion?: Date;
-  canal_id?: number;
-  estado?: string;
-  fecha_respuesta?: Date;
-  acepto?: boolean;
-  motivo_rechazo?: string;
+  aceptada?: boolean;
   created_at?: Date;
   updated_at?: Date;
 }
@@ -262,37 +199,22 @@ export interface InvitacionEvento {
 
 export interface EncuestaFormacion {
   id?: number;
+  nombre_encuesta: string;
   formacion_id: number;
-  persona_id: number;
-  fecha_respuesta?: Date;
-  valoracion_general?: number;
-  valoracion_contenido?: number;
-  valoracion_formador?: number;
-  valoracion_organizacion?: number;
-  valoracion_utilidad?: number;
-  aspectos_positivos?: string;
-  aspectos_mejora?: string;
-  sugerencias?: string;
-  recomendaria?: boolean;
+  fecha?: Date;
+  resultado?: string;
+  observaciones?: string;
   created_at?: Date;
   updated_at?: Date;
 }
 
 export interface EncuestaEvento {
   id?: number;
+  nombre_encuesta: string;
   evento_id: number;
-  persona_id: number;
-  fecha_respuesta?: Date;
-  valoracion_general?: number;
-  valoracion_contenido?: number;
-  valoracion_organizacion?: number;
-  valoracion_instalaciones?: number;
-  cumplimiento_expectativas?: number;
-  aspectos_positivos?: string;
-  aspectos_mejora?: string;
-  sugerencias?: string;
-  interesado_futuras_actividades?: boolean;
-  temas_interes?: string;
+  fecha?: Date;
+  resultado?: string;
+  observaciones?: string;
   created_at?: Date;
   updated_at?: Date;
 }
@@ -303,66 +225,49 @@ export interface EncuestaEvento {
 
 export interface SesionAsesoramiento {
   id?: number;
-  codigo: string;
+  nombre_sesion: string;
   empresa_id: number;
-  persona_contacto_id?: number;
-  tipo_id?: number;
-  fecha_sesion: Date;
-  duracion_minutos?: number;
-  modalidad?: string;
-  lugar?: string;
-  asesor?: string;
-  tematica?: string;
-  descripcion?: string;
-  objetivos?: string;
-  resultados?: string;
-  recomendaciones?: string;
-  seguimiento_requerido?: boolean;
-  fecha_seguimiento?: Date;
-  estado_id?: number;
-  valoracion?: number;
+  contacto_id?: number;
+  fecha_sesion?: Date;
+  duracion?: number;
+  canal_id?: number;
+  estado_sesion_id?: number;
+  responsable?: string;
+  temas_tratados?: string;
+  necesidades_detectadas?: string;
+  acuerdos_alcanzados?: string;
+  proximo_paso?: string;
+  fecha_proximo_paso?: Date;
+  evidencia_sesion?: string;
   created_at?: Date;
   updated_at?: Date;
 }
 
 export interface PlanAccion {
   id?: number;
-  codigo: string;
-  titulo: string;
-  descripcion?: string;
+  nombre_plan: string;
   empresa_id: number;
   sesion_asesoramiento_id?: number;
-  responsable?: string;
+  objetivo?: string;
   fecha_inicio?: Date;
-  fecha_fin_prevista?: Date;
-  fecha_fin_real?: Date;
+  fecha_fin?: Date;
   prioridad_id?: number;
   estado_id?: number;
-  presupuesto?: number;
-  coste_real?: number;
-  progreso?: number;
-  resultados_esperados?: string;
-  resultados_obtenidos?: string;
+  responsable?: string;
+  resultado_plan?: string;
   created_at?: Date;
   updated_at?: Date;
 }
 
 export interface TareaPlanAccion {
   id?: number;
+  nombre_tarea: string;
   plan_accion_id: number;
-  titulo: string;
-  descripcion?: string;
   responsable?: string;
   fecha_inicio?: Date;
-  fecha_fin_prevista?: Date;
-  fecha_fin_real?: Date;
-  prioridad_id?: number;
+  fecha_fin?: Date;
   estado_id?: number;
-  orden?: number;
-  dependencias?: string;
-  completada?: boolean;
-  porcentaje_completado?: number;
-  notas?: string;
+  observaciones?: string;
   created_at?: Date;
   updated_at?: Date;
 }
@@ -373,44 +278,25 @@ export interface TareaPlanAccion {
 
 export interface Material {
   id?: number;
-  titulo: string;
+  material: string;
+  nombre_material: string;
+  tipo_material_id?: number;
   descripcion?: string;
-  tipo_id?: number;
-  categoria?: string;
-  formato?: string;
-  url?: string;
-  ruta_archivo?: string;
-  tamano_kb?: number;
-  autor?: string;
-  fecha_publicacion?: Date;
-  palabras_clave?: string;
-  formacion_id?: number;
-  evento_id?: number;
-  sesion_asesoramiento_id?: number;
-  publico?: boolean;
-  descargas?: number;
   created_at?: Date;
   updated_at?: Date;
 }
 
 export interface AdjuntoEvidencia {
   id?: number;
-  titulo: string;
-  descripcion?: string;
-  tipo_documento?: string;
-  nombre_archivo: string;
-  ruta_archivo: string;
-  tamano_kb?: number;
-  tipo_mime?: string;
-  formacion_id?: number;
-  evento_id?: number;
-  sesion_asesoramiento_id?: number;
-  plan_accion_id?: number;
-  empresa_id?: number;
-  fecha_documento?: Date;
-  subido_por?: string;
-  verificado?: boolean;
-  fecha_verificacion?: Date;
+  nombre_adjunto: string;
+  archivo: string;
+  tipo_archivo?: string;
+  tipo_evidencia?: string;
+  fecha_evidencia?: Date;
+  material_id?: number;
+  relacionado_con?: string;
+  relacionado_id?: number;
+  observaciones?: string;
   created_at?: Date;
   updated_at?: Date;
 }
@@ -421,60 +307,30 @@ export interface AdjuntoEvidencia {
 
 export interface DifusionImpacto {
   id?: number;
-  titulo: string;
-  descripcion?: string;
-  tipo_id?: number;
-  canal_id?: number;
-  fecha_publicacion?: Date;
-  alcance?: number;
-  impresiones?: number;
-  interacciones?: number;
-  clics?: number;
-  compartidos?: number;
-  url?: string;
-  formacion_id?: number;
-  evento_id?: number;
-  publico_objetivo?: string;
-  resultados?: string;
+  nombre_difusion: string;
+  tipo_difusion_id?: number;
+  alcance_estimado?: number;
+  observaciones?: string;
   created_at?: Date;
   updated_at?: Date;
 }
 
 export interface Informe {
   id?: number;
-  codigo: string;
-  titulo: string;
-  descripcion?: string;
-  tipo_id?: number;
-  periodo_inicio?: Date;
-  periodo_fin?: Date;
-  fecha_generacion?: Date;
-  generado_por?: string;
-  contenido?: string;
-  ruta_archivo?: string;
-  formato?: string;
-  estado_id?: number;
-  publico?: boolean;
-  destinatarios?: string;
-  fecha_envio?: Date;
-  conclusiones?: string;
-  recomendaciones?: string;
+  nombre_informe: string;
+  tipo_informe_id?: number;
+  fecha?: Date;
+  observaciones?: string;
   created_at?: Date;
   updated_at?: Date;
 }
 
 export interface LogExportacion {
   id?: number;
+  nombre_exportacion: string;
+  fecha?: Date;
   usuario?: string;
-  entidad?: string;
-  formato?: string;
-  filtros?: string;
-  num_registros?: number;
-  fecha_inicio?: Date;
-  fecha_fin?: Date;
-  tamano_kb?: number;
-  ip_address?: string;
-  exitoso?: boolean;
-  mensaje_error?: string;
+  tipo_exportacion?: string;
+  resultado?: string;
   created_at?: Date;
 }
