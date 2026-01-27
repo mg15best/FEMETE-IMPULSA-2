@@ -4,12 +4,6 @@ import dotenv from 'dotenv';
 import { config } from './config/config';
 
 // Import routes
-import projectRoutes from './routes/projects';
-import objectiveRoutes from './routes/objectives';
-import activityRoutes from './routes/activities';
-import beneficiaryRoutes from './routes/beneficiaries';
-import resultRoutes from './routes/results';
-import kpiRoutes from './routes/kpis';
 import kpiStarsRoutes from './routes/kpi-stars';
 import exportRoutes from './routes/export';
 import empresaRoutes from './routes/empresas';
@@ -33,12 +27,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 // API Routes
-app.use('/api/projects', projectRoutes);
-app.use('/api/objectives', objectiveRoutes);
-app.use('/api/activities', activityRoutes);
-app.use('/api/beneficiaries', beneficiaryRoutes);
-app.use('/api/results', resultRoutes);
-app.use('/api/kpis', kpiRoutes);
 app.use('/api/kpi-stars', kpiStarsRoutes);
 app.use('/api/export', exportRoutes);
 app.use('/api/empresas', empresaRoutes);
@@ -62,14 +50,7 @@ app.get('/api', (req: Request, res: Response) => {
     version: '1.0.0',
     description: 'Project Management and Monitoring API for STARS 2025 Innovation Program',
     endpoints: {
-      // Legacy endpoints
-      projects: '/api/projects',
-      objectives: '/api/objectives',
-      activities: '/api/activities',
-      beneficiaries: '/api/beneficiaries',
-      results: '/api/results',
-      kpis: '/api/kpis',
-      // New STARS 2025 endpoints
+      // STARS 2025 Main Endpoints
       kpiStars: '/api/kpi-stars',
       empresas: '/api/empresas',
       formaciones: '/api/formaciones',
@@ -83,7 +64,8 @@ app.get('/api', (req: Request, res: Response) => {
       powerbi: '/api/kpi-stars/powerbi',
       historico: '/api/kpi-stars/historico',
       detalle: '/api/kpi-stars/detalle/:codigo',
-      breakdown: '/api/kpi-stars/breakdown/:codigo'
+      breakdown: '/api/kpi-stars/breakdown/:codigo',
+      snapshot: '/api/kpi-stars/snapshot (POST)'
     }
   });
 });
@@ -117,12 +99,12 @@ API Documentation: http://localhost:${PORT}/api
 Health Check: http://localhost:${PORT}/health
 
 Available endpoints:
-  - Projects:      http://localhost:${PORT}/api/projects
-  - Objectives:    http://localhost:${PORT}/api/objectives
-  - Activities:    http://localhost:${PORT}/api/activities
-  - Beneficiaries: http://localhost:${PORT}/api/beneficiaries
-  - Results:       http://localhost:${PORT}/api/results
-  - KPIs:          http://localhost:${PORT}/api/kpis
+  - Empresas:      http://localhost:${PORT}/api/empresas
+  - Formaciones:   http://localhost:${PORT}/api/formaciones
+  - Eventos:       http://localhost:${PORT}/api/eventos
+  - Asesoramiento: http://localhost:${PORT}/api/sesiones-asesoramiento
+  - KPI STARS:     http://localhost:${PORT}/api/kpi-stars
+  - Power BI:      http://localhost:${PORT}/api/kpi-stars/powerbi
   - Export:        http://localhost:${PORT}/api/export
   `);
 });

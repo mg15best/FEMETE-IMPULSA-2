@@ -119,13 +119,16 @@ export class ExportController {
         res.json(data);
       }
 
-      // Log the export
+      // Log the export (optional - only if user authentication is implemented)
+      // Comment out until authentication is added
+      /* 
       if (req.user && (req.user as any).id) {
         await pool.query(
-          'INSERT INTO export_logs (user_id, export_type, export_format, date_range_start, date_range_end) VALUES ($1, $2, $3, $4, $5)',
+          'INSERT INTO LogExportacion (usuario, entidad, formato, fecha_inicio, fecha_fin) VALUES ($1, $2, $3, $4, $5)',
           [(req.user as any).id, entity, format, start_date || null, end_date || null]
         );
       }
+      */
     } catch (error) {
       console.error('Export error:', error);
       res.status(500).json({ error: 'Failed to export data' });
@@ -139,31 +142,17 @@ export class ExportController {
       
       // Fetch all related data
       const projectQuery = project_id 
-        ? 'SELECT * FROM projects WHERE id = $1'
-        : 'SELECT * FROM projects';
+        ? 'SELECT * FROM Empresa WHERE id = $1'
+        : 'SELECT * FROM Empresa';
       const projectParams = project_id ? [project_id] : [];
       
       const projects = await pool.query(projectQuery, projectParams);
-      const objectives = await pool.query(
-        'SELECT * FROM objectives WHERE project_id = ANY($1)',
-        [projects.rows.map(p => p.id)]
-      );
-      const activities = await pool.query(
-        'SELECT * FROM activities WHERE project_id = ANY($1)',
-        [projects.rows.map(p => p.id)]
-      );
-      const beneficiaries = await pool.query(
-        'SELECT * FROM beneficiaries WHERE project_id = ANY($1)',
-        [projects.rows.map(p => p.id)]
-      );
-      const results = await pool.query(
-        'SELECT * FROM results WHERE project_id = ANY($1)',
-        [projects.rows.map(p => p.id)]
-      );
-      const kpis = await pool.query(
-        'SELECT * FROM kpis WHERE project_id = ANY($1)',
-        [projects.rows.map(p => p.id)]
-      );
+      const projectIds = projects.rows.map((p: any) => p.id);
+      
+      // Fetch related data
+      const formaciones = await pool.query('SELECT * FROM Formacion');
+      const eventos = await pool.query('SELECT * FROM Evento');
+      const sesiones = await pool.query('SELECT * FROM SesionAsesoramiento WHERE empresa_id = ANY($1)', [projectIds]);
 
       const comprehensiveReport = {
         generated_at: new Date(),
@@ -171,19 +160,15 @@ export class ExportController {
           start_date: start_date || 'N/A',
           end_date: end_date || 'N/A'
         },
-        projects: projects.rows,
-        objectives: objectives.rows,
-        activities: activities.rows,
-        beneficiaries: beneficiaries.rows,
-        results: results.rows,
-        kpis: kpis.rows,
+        empresas: projects.rows,
+        formaciones: formaciones.rows,
+        eventos: eventos.rows,
+        sesiones_asesoramiento: sesiones.rows,
         summary: {
-          total_projects: projects.rows.length,
-          total_objectives: objectives.rows.length,
-          total_activities: activities.rows.length,
-          total_beneficiaries: beneficiaries.rows.length,
-          total_results: results.rows.length,
-          total_kpis: kpis.rows.length
+          total_empresas: projects.rows.length,
+          total_formaciones: formaciones.rows.length,
+          total_eventos: eventos.rows.length,
+          total_sesiones: sesiones.rows.length
         }
       };
 
