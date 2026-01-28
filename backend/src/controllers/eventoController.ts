@@ -74,25 +74,21 @@ export class EventoController {
         RETURNING *
       `;
       const values = [
-        evento.nombre_evento || evento.titulo,
+        evento.nombre_evento,
         evento.descripcion,
-        evento.tipo_evento_id || evento.tipo_id,
+        evento.tipo_evento_id,
         evento.fecha_inicio,
         evento.fecha_fin,
         evento.lugar,
         evento.modalidad,
-        evento.entidad_organizadora || evento.organizador
+        evento.entidad_organizadora
       ];
 
       const result = await pool.query(query, values);
       res.status(201).json(result.rows[0]);
     } catch (error: any) {
       console.error('Error creating evento:', error);
-      if (error.code === '23505') {
-        res.status(400).json({ error: 'Evento already exists' });
-      } else {
-        res.status(500).json({ error: 'Failed to create evento' });
-      }
+      res.status(500).json({ error: 'Failed to create evento' });
     }
   }
 
@@ -117,14 +113,14 @@ export class EventoController {
       `;
       
       const values = [
-        evento.nombre_evento || evento.titulo,
+        evento.nombre_evento,
         evento.descripcion,
-        evento.tipo_evento_id || evento.tipo_id,
+        evento.tipo_evento_id,
         evento.fecha_inicio,
         evento.fecha_fin,
         evento.lugar,
         evento.modalidad,
-        evento.entidad_organizadora || evento.organizador,
+        evento.entidad_organizadora,
         id
       ];
 
