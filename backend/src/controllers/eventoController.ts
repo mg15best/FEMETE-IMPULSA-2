@@ -5,15 +5,13 @@ import { Evento } from '../models/types';
 export class EventoController {
   static async getAll(req: Request, res: Response) {
     try {
-      const { tipo_id, estado_id, modalidad } = req.query;
+      const { tipo_id, modalidad } = req.query;
       let query = `
         SELECT e.*, 
-               ct.nombre as tipo_nombre,
-               ce.nombre as estado_nombre,
+               ct.nombre_tipo as tipo_nombre,
                COUNT(DISTINCT ae.id) as total_inscritos
         FROM Evento e
-        LEFT JOIN CatalogoTipo ct ON e.tipo_id = ct.id
-        LEFT JOIN CatalogoEstado ce ON e.estado_id = ce.id
+        LEFT JOIN CatalogoTipo ct ON e.tipo_evento_id = ct.id
         LEFT JOIN AsistenciaEvento ae ON e.id = ae.evento_id
         WHERE 1=1
       `;
@@ -21,14 +19,8 @@ export class EventoController {
       let paramCount = 1;
 
       if (tipo_id) {
-        query += ` AND e.tipo_id = $${paramCount}`;
+        query += ` AND e.tipo_evento_id = $${paramCount}`;
         params.push(tipo_id);
-        paramCount++;
-      }
-
-      if (estado_id) {
-        query += ` AND e.estado_id = $${paramCount}`;
-        params.push(estado_id);
         paramCount++;
       }
 
@@ -38,7 +30,7 @@ export class EventoController {
         paramCount++;
       }
 
-      query += ' GROUP BY e.id, ct.nombre, ce.nombre ORDER BY e.fecha_inicio DESC';
+      query += ' GROUP BY e.id, ct.nombre_tipo ORDER BY e.fecha_inicio DESC';
 
       const result = await pool.query(query, params);
       res.json(result.rows);
@@ -53,11 +45,9 @@ export class EventoController {
       const { id } = req.params;
       const result = await pool.query(`
         SELECT e.*, 
-               ct.nombre as tipo_nombre,
-               ce.nombre as estado_nombre
+               ct.nombre_tipo as tipo_nombre
         FROM Evento e
-        LEFT JOIN CatalogoTipo ct ON e.tipo_id = ct.id
-        LEFT JOIN CatalogoEstado ce ON e.estado_id = ce.id
+        LEFT JOIN CatalogoTipo ct ON e.tipo_evento_id = ct.id
         WHERE e.id = $1
       `, [id]);
       
@@ -77,32 +67,28 @@ export class EventoController {
       const evento: Evento = req.body;
       const query = `
         INSERT INTO Evento (
-          codigo, titulo, descripcion, tipo_id, fecha_inicio, fecha_fin,
-          lugar, direccion, modalidad, plataforma_online, capacidad_maxima,
-          aforo_actual, organizador, ponentes, agenda, estado_id,
-          presupuesto, coste_real, publico_objetivo, requisitos
+          nombre_evento, descripcion, tipo_evento_id, fecha_inicio, fecha_fin,
+          lugar, modalidad, entidad_organizadora
         )
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
         RETURNING *
       `;
       const values = [
-        evento.codigo, evento.titulo, evento.descripcion, evento.tipo_id,
-        evento.fecha_inicio, evento.fecha_fin, evento.lugar, evento.direccion,
-        evento.modalidad, evento.plataforma_online, evento.capacidad_maxima,
-        evento.aforo_actual || 0, evento.organizador, evento.ponentes,
-        evento.agenda, evento.estado_id, evento.presupuesto, evento.coste_real,
-        evento.publico_objetivo, evento.requisitos
+        evento.nombre_evento,
+        evento.descripcion,
+        evento.tipo_evento_id,
+        evento.fecha_inicio,
+        evento.fecha_fin,
+        evento.lugar,
+        evento.modalidad,
+        evento.entidad_organizadora
       ];
 
       const result = await pool.query(query, values);
       res.status(201).json(result.rows[0]);
     } catch (error: any) {
       console.error('Error creating evento:', error);
-      if (error.code === '23505') {
-        res.status(400).json({ error: 'Código already exists' });
-      } else {
-        res.status(500).json({ error: 'Failed to create evento' });
-      }
+      res.status(500).json({ error: 'Failed to create evento' });
     }
   }
 
@@ -113,37 +99,29 @@ export class EventoController {
       
       const query = `
         UPDATE Evento 
-        SET titulo = COALESCE($1, titulo),
+        SET nombre_evento = COALESCE($1, nombre_evento),
             descripcion = COALESCE($2, descripcion),
-            tipo_id = COALESCE($3, tipo_id),
+            tipo_evento_id = COALESCE($3, tipo_evento_id),
             fecha_inicio = COALESCE($4, fecha_inicio),
             fecha_fin = COALESCE($5, fecha_fin),
             lugar = COALESCE($6, lugar),
-            direccion = COALESCE($7, direccion),
-            modalidad = COALESCE($8, modalidad),
-            plataforma_online = COALESCE($9, plataforma_online),
-            capacidad_maxima = COALESCE($10, capacidad_maxima),
-            aforo_actual = COALESCE($11, aforo_actual),
-            organizador = COALESCE($12, organizador),
-            ponentes = COALESCE($13, ponentes),
-            agenda = COALESCE($14, agenda),
-            estado_id = COALESCE($15, estado_id),
-            presupuesto = COALESCE($16, presupuesto),
-            coste_real = COALESCE($17, coste_real),
-            publico_objetivo = COALESCE($18, publico_objetivo),
-            requisitos = COALESCE($19, requisitos),
+            modalidad = COALESCE($7, modalidad),
+            entidad_organizadora = COALESCE($8, entidad_organizadora),
             updated_at = CURRENT_TIMESTAMP
-        WHERE id = $20
+        WHERE id = $9
         RETURNING *
       `;
       
       const values = [
-        evento.titulo, evento.descripcion, evento.tipo_id, evento.fecha_inicio,
-        evento.fecha_fin, evento.lugar, evento.direccion, evento.modalidad,
-        evento.plataforma_online, evento.capacidad_maxima, evento.aforo_actual,
-        evento.organizador, evento.ponentes, evento.agenda, evento.estado_id,
-        evento.presupuesto, evento.coste_real, evento.publico_objetivo,
-        evento.requisitos, id
+        evento.nombre_evento,
+        evento.descripcion,
+        evento.tipo_evento_id,
+        evento.fecha_inicio,
+        evento.fecha_fin,
+        evento.lugar,
+        evento.modalidad,
+        evento.entidad_organizadora,
+        id
       ];
 
       const result = await pool.query(query, values);
@@ -185,12 +163,12 @@ export class EventoController {
           p.nombre,
           p.apellidos,
           p.email,
-          e.razon_social as empresa
+          e.nombre_empresa as empresa
         FROM AsistenciaEvento ae
         JOIN Personas p ON ae.persona_id = p.id
         LEFT JOIN Empresa e ON ae.empresa_id = e.id
         WHERE ae.evento_id = $1
-        ORDER BY ae.fecha_inscripcion DESC
+        ORDER BY ae.created_at DESC
       `, [id]);
       
       res.json(result.rows);
