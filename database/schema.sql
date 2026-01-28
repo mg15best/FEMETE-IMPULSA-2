@@ -50,19 +50,7 @@ CREATE TABLE IF NOT EXISTS CatalogoCanal (
 -- ENTIDADES PRINCIPALES (Main Entities)
 -- ============================================
 
--- Personas (People)
-CREATE TABLE IF NOT EXISTS Personas (
-    id SERIAL PRIMARY KEY,
-    nombre VARCHAR(255) NOT NULL,
-    apellidos VARCHAR(255),
-    email VARCHAR(255),
-    telefono VARCHAR(50),
-    empresa_id INTEGER REFERENCES Empresa(id) ON DELETE SET NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Empresa (Company)
+-- Empresa (Company) - Must be created before Personas due to foreign key
 CREATE TABLE IF NOT EXISTS Empresa (
     id SERIAL PRIMARY KEY,
     nombre_empresa VARCHAR(255) NOT NULL,
@@ -76,6 +64,18 @@ CREATE TABLE IF NOT EXISTS Empresa (
     email VARCHAR(255),
     sector VARCHAR(255),
     observaciones TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Personas (People)
+CREATE TABLE IF NOT EXISTS Personas (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    apellidos VARCHAR(255),
+    email VARCHAR(255),
+    telefono VARCHAR(50),
+    empresa_id INTEGER REFERENCES Empresa(id) ON DELETE SET NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
