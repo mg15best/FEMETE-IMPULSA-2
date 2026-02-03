@@ -287,6 +287,10 @@ npm run build      # Compilar TypeScript
 npm start          # Iniciar servidor de producción
 ```
 
+### Despliegue en Vercel
+
+Este repositorio incluye un `vercel.json` que configura la carpeta `frontend/` como directorio de salida para el despliegue estático.
+
 ### Añadir Nuevas Entidades
 
 1. Crear tabla en `database/schema.sql`
